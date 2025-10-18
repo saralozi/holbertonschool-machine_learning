@@ -1,4 +1,4 @@
-#!usr/bin/env/python3
+#!/usr/bin/env python3
 """A script that transposes matrix"""
 import numpy as np
 

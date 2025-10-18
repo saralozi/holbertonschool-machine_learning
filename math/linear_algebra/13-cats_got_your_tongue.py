@@ -1,4 +1,4 @@
-#!/usr/bin/en python3
+#!/usr/bin/env python3
 """A script that concatenates 2 matrices along a specific axis"""
 
 

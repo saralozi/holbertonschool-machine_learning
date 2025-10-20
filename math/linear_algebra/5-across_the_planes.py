@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""A script that adds two arrays element-wise"""
+"""A script that adds two matrices element-wise"""
 
 
 def add_matrices2D(mat1, mat2):

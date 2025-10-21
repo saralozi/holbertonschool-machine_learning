@@ -12,4 +12,8 @@ def poly_integral(poly, C=0):
         res = poly[i] / (i + 1)
         res = int(res) if res.is_integer() else res
         integral.append(res)
+
+    while len(integral) > 1 and integral[-1] == 0:
+        integral.pop()
+
     return integral

@@ -23,3 +23,13 @@ class Normal:
 
         self.mean = float(mean)
         self.stddev = float(stddev)
+
+    def z_score(self, x):
+        """A function that calculates the z-score of a given x-value"""
+
+        return ((x-self.mean)/self.stddev)
+
+    def x_value(self, z):
+        """A function that calculates the x-value of a given z-score"""
+
+        return (self.mean+(z*self.stddev))

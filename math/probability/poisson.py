@@ -19,7 +19,7 @@ class Poisson:
             self.lambtha = float((sum(data))/len(data))
 
     def pmf(self, k):
-        """A function to calculate PMF"""
+        """A function that calculates PMF"""
 
         if not isinstance(k, int):
             k = int(k)
@@ -30,3 +30,19 @@ class Poisson:
         for i in range(1, k + 1):
             fact *= i
         return ((2.7182818285**-lambtha)*(lambtha**k))/fact
+
+    def cdf(self, k):
+        """A function that calculates CDF"""
+
+        if not isinstance(k, int):
+            k = int(k)
+        if k < 0:
+            return 0
+        cumulative = 0
+        lambtha = self.lambtha
+        for i in range(k+1):
+            fact = 1
+            for j in range(1, i+1):
+                fact *= j
+            cumulative += ((lambtha**i) / fact)
+        return (2.7182818285**-lambtha)*cumulative

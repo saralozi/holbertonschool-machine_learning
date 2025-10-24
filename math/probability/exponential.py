@@ -22,9 +22,18 @@ class Exponential:
 
     def pdf(self, x):
         """A function to calculate PDF"""
-        lambtha = self.lambtha
 
+        lambtha = self.lambtha
         if x < 0:
             return 0
         else:
             return (lambtha*((2.7182818285)**(-lambtha*x)))
+
+    def cdf(self, x):
+        """A function to calculate CDF"""
+
+        lambtha = self.lambtha
+        if x < 0:
+            return 0
+        else:
+            return (1-((2.7182818285)**(-lambtha*x)))

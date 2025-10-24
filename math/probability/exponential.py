@@ -26,5 +26,5 @@ class Exponential:
 
         if x < 0:
             return 0
-        else: 
+        else:
             return (lambtha*((2.7182818285)**(-lambtha*x)))

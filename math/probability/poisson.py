@@ -22,7 +22,7 @@ class Poisson:
         """A function to calculate PMF"""
 
         if not isinstance(k, int):
-            int(k)
+            k = int(k)
         if k < 0:
             return 0
         lambtha = self.lambtha

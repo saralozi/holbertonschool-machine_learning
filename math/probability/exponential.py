@@ -19,3 +19,12 @@ class Exponential:
             mean = 0
             mean = sum(data)/len(data)
             self.lambtha = float(1/mean)
+
+    def pdf(self, x):
+        """A function to calculate PDF"""
+        lambtha = self.lambtha
+
+        if x < 0:
+            return 0
+        else: 
+            return (lambtha*((2.7182818285)**(-lambtha*x)))

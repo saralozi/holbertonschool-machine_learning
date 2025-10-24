@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""A script that represents a normal distribution"""
+"""A script that creates a class to represent a normal distribution"""
 
 
 class Normal:

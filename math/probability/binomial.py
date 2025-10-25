@@ -27,3 +27,24 @@ class Binomial:
 
             self.n = int(num)
             self.p = float(prob)
+
+    def pmf(self, k):
+        """A function to calculate PMF"""
+
+        if not isinstance(k, int):
+            k = int(k)
+        if k < 0:
+            return 0
+        n = self.n
+        p = self.p
+
+        def factorial(n):
+            """Calculates factorial of n)"""
+
+            result = 1
+            for i in range(1, n + 1):
+                result *= i
+            return result
+
+        return (factorial(n) / (factorial(k) *
+                factorial(n - k)))*(p**k)*((1-p)**(n-k))

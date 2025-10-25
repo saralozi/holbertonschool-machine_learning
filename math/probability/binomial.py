@@ -46,5 +46,22 @@ class Binomial:
                 result *= i
             return result
 
-        return (factorial(n) / (factorial(k) *
-                factorial(n - k)))*(p**k)*((1-p)**(n-k))
+        pmf = (factorial(n) / (factorial(k) * factorial(
+            n-k)))*(p**k)*((1-p)**(n-k))
+        return pmf
+
+    def cdf(self, k):
+        """A function to calculate CDF"""
+
+        if not isinstance(k, int):
+            k = int(k)
+        if k < 0:
+            return 0
+        if k > self.n:
+            k = self.n
+
+        cdf = 0
+
+        for i in range(0, k + 1):
+            cdf += self.pmf(i)
+        return cdf

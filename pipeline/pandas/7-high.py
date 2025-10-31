@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""A function that takes a DataFrame and does sorting operations"""
+"""A script that takes a DataFrame and does sorting operations"""
 
 
 def high(df):

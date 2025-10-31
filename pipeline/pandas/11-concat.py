@@ -1,0 +1,19 @@
+#!/usr/bin/env python3
+"""A script that takes 2 DataFrames and does operations on them"""
+
+
+import pandas as pd
+
+
+def concat(df1, df2):
+    """A function that takes 2 DataFrames and does operations on them"""
+
+    index = __import__('10-index').index
+    df1 = index(df1)
+    df2 = index(df2)
+
+    df2 = df2.loc[:1417411920]
+
+    new_df = pd.concat([df2,  df1], keys=['bitstamp', 'coinbase'])
+
+    return new_df

@@ -1,4 +1,4 @@
-#!/usr/bin/env python 3
+#!/usr/bin/env python3
 """A script that takes 2 DataFrames and does operations"""
 
 

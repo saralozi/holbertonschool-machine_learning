@@ -18,7 +18,7 @@ def hierarchy(df1, df2):
     new_df = pd.concat([df2, df1], keys=["bitstamp", "coinbase"])
 
     new_df = new_df.swaplevel(0, 1)
-    new_df.index = new_df.index.set_names(["Timestamp", "Exchange"])
+    new_df.index = new_df.index.set_names(["Timestamp", None])
 
     new_df = new_df.sort_index()
 

@@ -2,13 +2,9 @@
 """A script that takes a DataFrame as input and performs operations"""
 
 
-import pandas as pd
-import numpy as np
-
-
 def array(df):
     """A function that takes a DataFrame and performs operations"""
 
     selected_rows = df[['High', 'Close']].tail(10)
-    rows_array = np.array(selected_rows)
+    rows_array = selected_rows.to_numpy()
     return rows_array

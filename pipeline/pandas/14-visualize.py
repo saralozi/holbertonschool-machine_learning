@@ -40,10 +40,12 @@ print(daily)
 
 ax = daily[['High', 'Low', 'Open', 'Close']].plot(figsize=(12, 6))
 ax.set_title('BTC/USD (Coinbase) — Daily OHLC from 2017 onward')
-ax.set_xlabel('Date'); ax.set_ylabel('Price (USD)')
+ax.set_xlabel('Date')
+ax.set_ylabel('Price (USD)')
 
 ax2 = daily[['Volume_(BTC)', 'Volume_(Currency)']].plot(figsize=(12, 4))
 ax2.set_title('Daily Volume from 2017 onward')
-ax2.set_xlabel('Date'); ax2.set_ylabel('Volume')
+ax2.set_xlabel('Date')
+ax2.set_ylabel('Volume')
 
 plt.show()

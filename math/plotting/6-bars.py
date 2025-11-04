@@ -15,7 +15,6 @@ def bars():
     x = np.arange(fruit.shape[1])
     width = 0.5
 
-    # Explicit row indexing ensures order (apples→bananas→oranges→peaches)
     plt.bar(x, fruit[0], width, label='apples', color='red')
     plt.bar(
         x,

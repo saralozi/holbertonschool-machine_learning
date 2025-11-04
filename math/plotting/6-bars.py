@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """A script that plots a stacked bar graph"""
 
+
 import numpy as np
 import matplotlib.pyplot as plt
 
 
 def bars():
     """A function that plots a stacked bar graph"""
+
     np.random.seed(5)
     fruit = np.random.randint(0, 20, (4, 3))
     plt.figure(figsize=(6.4, 4.8))
@@ -15,7 +17,12 @@ def bars():
     x = np.arange(fruit.shape[1])
     width = 0.5
 
-    plt.bar(x, fruit[0], width, label='apples', color='red')
+    plt.bar(
+        x,
+        fruit[0],
+        width,
+        label='apples',
+        color='red')
     plt.bar(
         x,
         fruit[1],

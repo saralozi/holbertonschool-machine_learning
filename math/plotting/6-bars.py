@@ -1,51 +1,45 @@
 #!/usr/bin/env python3
 """A script that plots a stacked bar graph"""
 
-
 import numpy as np
 import matplotlib.pyplot as plt
 
 
 def bars():
     """A function that plots a stacked bar graph"""
-
     np.random.seed(5)
     fruit = np.random.randint(0, 20, (4, 3))
     plt.figure(figsize=(6.4, 4.8))
 
     people = ['Farrah', 'Fred', 'Felicia']
-    apples, bananas, oranges, peaches = fruit
-
     x = np.arange(fruit.shape[1])
     width = 0.5
 
+    # Explicit row indexing ensures order (apples→bananas→oranges→peaches)
+    plt.bar(x, fruit[0], width, label='apples', color='red')
     plt.bar(
         x,
-        apples,
+        fruit[1],
         width,
-        label='apples',
-        color='red')
-    plt.bar(
-        x,
-        bananas,
-        width,
-        bottom=apples,
+        bottom=fruit[0],
         label='bananas',
         color='yellow')
     plt.bar(
         x,
-        oranges,
+        fruit[2],
         width,
-        bottom=apples + bananas,
+        bottom=fruit[0] + fruit[1],
         label='oranges',
-        color='#ff8000')
+        color='#ff8000',
+    )
     plt.bar(
         x,
-        peaches,
+        fruit[3],
         width,
-        bottom=apples + bananas + oranges,
+        bottom=fruit[0] + fruit[1] + fruit[2],
         label='peaches',
-        color='#ffe5b4')
+        color='#ffe5b4',
+    )
 
     plt.xticks(x, people)
     plt.ylabel('Quantity of Fruit')

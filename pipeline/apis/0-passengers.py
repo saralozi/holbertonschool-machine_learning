@@ -25,7 +25,10 @@ def availableShips(passengerCount):
             data = response.json()
 
             for ship in data['results']:
-                passengers = ship['passengers']
+
+                passengers = ship.get('passengers', '0')
+
+                passengers = passengers.replace(',', '')
 
                 if not passengers.isdigit():
                     continue

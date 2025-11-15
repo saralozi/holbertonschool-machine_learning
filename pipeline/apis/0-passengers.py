@@ -27,7 +27,6 @@ def availableShips(passengerCount):
             for ship in data['results']:
 
                 passengers = ship.get('passengers', '0')
-
                 passengers = passengers.replace(',', '')
 
                 if not passengers.isdigit():

@@ -45,8 +45,8 @@ def sentientPlanets():
 
                 planet_data = planet_response.json()
                 planet_name = planet_data.get('name')
-
                 planet_url = planet_data.get('url')
+
                 if planet_url:
                     planet_id = int(planet_url.rstrip('/').split('/')[-1])
                 else:

@@ -7,28 +7,30 @@ import requests
 def rocket_frequency():
     """A function that displays the number of launches per rocket"""
 
-    base = "https://api.spacexdata.com"
+    url = "https://api.spacexdata.com"
 
-    launches = requests.get(f"{base}/v4/launches", timeout=10).json()
+    launches = requests.get(f"{url}/v4/launches").json()
 
     counts = {}
     for launch in launches:
         rocket_id = launch["rocket"]
-        counts[rocket_id] = counts.get(rocket_id, 0) + 1
 
-    rockets = {}
+        if rocket_id in counts:
+            counts[rocket_id] += 1
+        else:
+            counts[rocket_id] = 1
+
+    names = {}
     for rocket_id in counts:
-        rockets[rocket_id] = requests.get(
-            f"{base}/v4/rockets/{rocket_id}",
-            timeout=10
-        ).json()["name"]
+        data = requests.get(f"{url}/v4/rockets/{rocket_id}").json()
+        names[rocket_id] = data["name"]
 
-    results = [
-        (rockets[rocket_id], count)
-        for rocket_id, count in counts.items()
-    ]
+    results = []
+    for rocket_id, count in counts.items():
+        rocket_name = names[rocket_id]
+        results.append((rocket_name, count))
 
-    results.sort(key=lambda x: (-x[1], x[0]))
+        results.sort(key=lambda item: (-item[1], item[0]))
     return results
 
 

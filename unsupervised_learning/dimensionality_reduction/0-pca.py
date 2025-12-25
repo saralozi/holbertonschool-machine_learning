@@ -25,7 +25,7 @@ def pca(X, var=0.95):
 
     cum = np.cumsum(eig_vals)
     total = cum[-1]
-    nd = np.searchsorted(cum / total, var) + 1
+    nd = np.searchsorted(cum / total, var, side='right') + 1
 
     W = eig_vecs[:, :nd]
 

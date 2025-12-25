@@ -1,32 +1,26 @@
 #!/usr/bin/env python3
 """A function def pca(X, var=0.95): that performs PCA on a dataset"""
 
-
 import numpy as np
 
 
 def pca(X, var=0.95):
-    """A function that performs PCA on a dataset"""
+    """Performs PCA on a dataset"""
 
     if not isinstance(X, np.ndarray) or X.ndim != 2:
         return None
     if not isinstance(var, float) or var <= 0 or var > 1:
         return None
 
-    n, d = X.shape
+    # X is already mean-centered (task guarantees mean = 0 per column)
+    _, s, Vt = np.linalg.svd(X, full_matrices=False)
 
-    cov = (X.T @ X) / (n - 1)
+    # Explained variance is proportional to singular values squared
+    explained = s ** 2
+    cum_ratio = np.cumsum(explained) / np.sum(explained)
 
-    eig_vals, eig_vecs = np.linalg.eigh(cov)
+    # smallest nd such that we keep at least `var`
+    nd = np.where(cum_ratio >= var)[0][0] + 1
 
-    idx = np.argsort(eig_vals)[::-1]
-    eig_vals = eig_vals[idx]
-    eig_vecs = eig_vecs[:, idx]
-
-    cum = np.cumsum(eig_vals)
-    total = cum[-1]
-    nd = np.searchsorted(cum / total, var, side='right') + 1
-
-    W = eig_vecs[:, :nd]
-
+    W = Vt.T[:, :nd]
     return W

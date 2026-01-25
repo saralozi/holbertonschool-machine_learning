@@ -7,9 +7,10 @@ import numpy as np
 
 
 class Neuron:
+    """Defines a single neuron performing binary classification."""
 
     def __init__(self, nx):
-        """Defines a single neuron performing bunary classification"""
+        """Initialize the neuron"""
 
         if type(nx) is not int:
             raise TypeError("nx must be an integer")

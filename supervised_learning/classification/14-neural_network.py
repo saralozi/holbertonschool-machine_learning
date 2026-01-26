@@ -88,14 +88,11 @@ class NeuralNetwork:
 
         m = Y.shape[1]
 
-        W2_copy = self.__W2.copy()
-
         dZ2 = A2 - Y
         dW2 = np.matmul(dZ2, A1.T) / m
         db2 = np.sum(dZ2, axis=1, keepdims=True) / m
 
-        dA1 = np.matmul(W2_copy.T, dZ2)
-        dZ1 = dA1 * (A1 * (1 - A1))
+        dZ1 = np.matmul(self.__W2.T, dZ2) * (A1 * (1 - A1))
         dW1 = np.matmul(dZ1, X.T) / m
         db1 = np.sum(dZ1, axis=1, keepdims=True) / m
 
@@ -117,8 +114,8 @@ class NeuralNetwork:
         if alpha <= 0:
             raise ValueError("alpha must be positive")
 
-        for _ in range(iterations):
-            A1, A2 = self.forward_prop(X)
-            self.gradient_descent(X, Y, A2, A1, alpha)
+        for i in range(iterations):
+            self.forward_prop(X)
+            self.gradient_descent(X, Y, self.__1, self.__A1, alpha)
 
         return self.evaluate(X, Y)

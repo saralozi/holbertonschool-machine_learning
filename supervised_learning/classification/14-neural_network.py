@@ -105,7 +105,7 @@ class NeuralNetwork:
         self.__b2 = self.__b2 - alpha * db2
 
     def train(self, X, Y, iterations=5000, alpha=0.05):
-        """Train the neural network"""
+        """Trains the neural network"""
 
         if type(iterations) is not int:
             raise TypeError("iterations must be an integer")

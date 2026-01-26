@@ -99,10 +99,10 @@ class NeuralNetwork:
         dW1 = np.matmul(dZ1, X.T) / m
         db1 = np.sum(dZ1, axis=1, keepdims=True) / m
 
-        self.__W2 = self.__W2 - alpha * dW2
-        self.__b2 = self.__b2 - alpha * db2
         self.__W1 = self.__W1 - alpha * dW1
         self.__b1 = self.__b1 - alpha * db1
+        self.__W2 = self.__W2 - alpha * dW2
+        self.__b2 = self.__b2 - alpha * db2
 
     def train(self, X, Y, iterations=5000, alpha=0.05):
         """Train the neural network"""

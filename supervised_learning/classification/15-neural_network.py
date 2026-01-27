@@ -3,6 +3,7 @@
 hidden layer performing binary classification"""
 
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 class NeuralNetwork:
@@ -99,7 +100,8 @@ class NeuralNetwork:
         self.__W1 = self.__W1 - alpha * dW1
         self.__b1 = self.__b1 - alpha * db1
 
-    def train(self, X, Y, iterations=5000, alpha=0.05):
+    def train(self, X, Y, iterations=5000,
+              alpha=0.05, verbose=True, graph=True, step=100):
         """Train the neural network"""
 
         if type(iterations) is not int:
@@ -107,13 +109,36 @@ class NeuralNetwork:
         if iterations < 0:
             raise ValueError('iterations must be a positive integer')
 
-        if type(iterations) is not int:
+        if type(alpha) is not float:
             raise TypeError('alpha must be a float')
         if alpha < 0:
             raise ValueError('alpha must be positive')
 
-        for i in range(iterations):
+        if verbose or graph:
+            if type(step) is not int:
+                raise TypeError("step must be an integer")
+            if step < 1 or step > iterations:
+                raise ValueError("step must be positive and <= iterations")
+
+        iteration = []
+        c = []
+
+        for i in range(iterations + 1):
+            a, cost = self.evaluate(X, Y)
             self.forward_prop(X)
-            self.gradient_descent(X, Y, self.__A1, self.__A2, alpha)
+            if i % step == 0:
+                iteration.append(i)
+                c.append(cost)
+                if verbose:
+                    print('Cost after {} iterations: {}'.format(i, cost))
+            if i < iterations:
+                self.gradient_descent(X, Y, self.__A1, self.__A2, alpha)
+
+        if graph:
+            plt.plot(iteration, c, 'b')
+            plt.xlabel('iteration')
+            plt.ylabel('cost')
+            plt.title('Training Cost')
+            plt.show()
 
         return self.evaluate(X, Y)

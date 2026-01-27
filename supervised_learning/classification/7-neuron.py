@@ -91,7 +91,6 @@ class Neuron:
         xs = []
         ys = []
 
-        # 0th iteration
         A0 = self.forward_prop(X)
         c0 = self.cost(Y, A0)
         if verbose:
@@ -100,7 +99,6 @@ class Neuron:
             xs.append(0)
             ys.append(c0)
 
-        # Training loop
         for i in range(1, iterations + 1):
             A = self.forward_prop(X)
             self.gradient_descent(X, Y, A, alpha)

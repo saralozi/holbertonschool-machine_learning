@@ -11,7 +11,6 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
     model = K.models.Sequential()
     reg = K.regularizers.l2(lambtha)
 
-    # First layer
     model.add(
         K.layers.Dense(
             units=layers[0],
@@ -22,7 +21,6 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
     )
     model.add(K.layers.Dropout(rate=1 - keep_prob))
 
-    # Remaining layers
     for i in range(1, len(layers)):
         model.add(
             K.layers.Dense(

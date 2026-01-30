@@ -4,4 +4,5 @@ __pycache__/
 *.csv
 venv/
 data/
-*.pkl
+*27-output.pkl
+*28-output.pkl

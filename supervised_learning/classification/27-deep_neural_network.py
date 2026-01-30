@@ -83,7 +83,6 @@ class DeepNeuralNetwork:
         A = np.clip(A, 1e-300, 1.0)
         return -np.sum(Y * np.log(A)) / m
 
-
     def evaluate(self, X, Y):
         """Evaluates predictions: returns one-hot predictions and cost"""
 

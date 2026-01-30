@@ -74,12 +74,10 @@ class DeepNeuralNetwork:
             Z = np.matmul(W, A_prev) + b
 
             if layer == self.__L:
-                # Softmax (stable)
                 Z_shift = Z - np.max(Z, axis=0, keepdims=True)
                 exp_Z = np.exp(Z_shift)
                 A = exp_Z / np.sum(exp_Z, axis=0, keepdims=True)
             else:
-                # Hidden activation
                 if self.__activation == 'sig':
                     A = 1 / (1 + np.exp(-Z))
                 else:
@@ -93,7 +91,9 @@ class DeepNeuralNetwork:
         """Calculates cost using categorical cross-entropy"""
 
         m = Y.shape[1]
-        return -np.sum(Y * np.log(A + 1e-8)) / m
+        A = A.astype(np.float64)
+        A = np.clip(A, 1e-300, 1.0)
+        return -np.sum(Y * np.log(A)) / m
 
     def evaluate(self, X, Y):
         """Evaluates predictions: returns one-hot predictions and cost"""

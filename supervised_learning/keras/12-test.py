@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """A function that tests a neural network model"""
 
+import tensorflow.keras as K
+
 
 def test_model(network, data, labels, verbose=True):
     """Tests a neural network model"""

@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Sets up Adam optimization with categorical crossentropy and accuracy."""
+"""Sets up Adam optimization for a keras model."""
 
-import tensorflow.keras as K
+import tensorflow as tf
+
 
 def optimize_model(network, alpha, beta1, beta2):
-    """Sets up Adam optimization with categorical crossentropy and accuracy."""
+    """Sets up Adam optimization for a keras model."""
 
     opt = tf.keras.optimizers.Adam(
         learning_rate=alpha,

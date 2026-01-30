@@ -4,7 +4,6 @@
 import os
 import pickle
 import numpy as np
-import matplotlib.pyplot as plt
 
 
 class DeepNeuralNetwork:
@@ -80,7 +79,10 @@ class DeepNeuralNetwork:
         """Calculates cost using categorical cross-entropy"""
 
         m = Y.shape[1]
-        return -np.sum(Y * np.log(A + 1e-8)) / m
+        A = A.astype(np.float64)
+        A = np.clip(A, 1e-300, 1.0)
+        return -np.sum(Y * np.log(A)) / m
+
 
     def evaluate(self, X, Y):
         """Evaluates predictions: returns one-hot predictions and cost"""

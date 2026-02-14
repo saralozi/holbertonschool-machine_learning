@@ -1,19 +1,25 @@
 #!/usr/bin/env python3
-"""A function that calculates the cost
- of a neural network with L2 regularization"""
+"""A script that creates a layer with L2 regularization."""
 
 import tensorflow as tf
 
 
-def l2_reg_cost(cost, model):
-    """Calculates the total cost with L2 regularization"""
-    layer_costs = []
+def l2_reg_create_layer(prev, n, activation, lambtha):
+    """
+    A function that creates a neural network layer with L2 regularization.
+    """
+    initializer = tf.keras.initializers.VarianceScaling(
+        scale=2.0,
+        mode=('fan_avg')
+    )
 
-    for layer in model.layers:
-        if len(layer.trainable_weights) == 0:
-            continue
+    regularizer = tf.keras.regularizers.L2(lambtha)
 
-        reg = tf.add_n(layer.losses) if layer.losses else 0.0
-        layer_costs.append(cost + reg)
+    layer = tf.keras.layers.Dense(
+        units=n,
+        activation=activation,
+        kernel_initializer=initializer,
+        kernel_regularizer=regularizer
+    )
 
-    return tf.stack(layer_costs)
+    return layer(prev)

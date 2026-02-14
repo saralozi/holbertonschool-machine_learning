@@ -6,27 +6,26 @@ import numpy as np
 
 def dropout_forward_prop(X, weights, L, keep_prob):
     """Forward propagation with dropout"""
-    cache = {}
-    cache["A0"] = X
-    A = X
 
-    for i in range(1, L + 1):
-        W = weights["W{}".format(l)]
-        b = weights["b{}".format(l)]
-        Z = np.matmul(W, A) + b
+    cache = {'A0': X}
 
-        if i != L:
-            A = np.tanh(Z)
+    for layer in range(1, L):
+        Z = (np.matmul(weights["W" + str(layer)],
+                       cache['A' + str(layer - 1)]) +
+             weights['b' + str(layer)])
+        A = np.tanh(Z)
+        dropout = np.random.binomial(1, keep_prob, size=A.shape)
+        cache["D" + str(layer)] = dropout
+        A = np.multiply(A, dropout)
+        A /= keep_prob
+        cache['A' + str(layer)] = A
 
-            D = (np.random.rand(*A.shape) < keep_prob).astype(int)
+    Z = (np.matmul(weights["W" + str(L)],
+                   cache['A' + str(L - 1)]) +
+         weights['b' + str(L)])
 
-            A = (A * D) / keep_prob
+    A = np.exp(Z) / np.sum(np.exp(Z), axis=0)
 
-            cache["D{}".format(i)] = D
-            cache["A{}".format(l)] = A
-        else:
-            expZ = np.exp(Z - np.max(Z, axis=0, keepdims=True))
-            A = expZ / np.sum(expZ, axis=0, keepdims=True)
-            cache["A{}".format(i)] = A
+    cache['A' + str(L)] = A
 
     return cache

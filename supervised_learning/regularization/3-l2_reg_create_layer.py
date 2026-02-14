@@ -1,18 +1,17 @@
 #!/usr/bin/env python3
-"""A function that creates a neural
-network layer in tensorflow with L2 regularization"""
+"""A function that calculates the
+ cost of a neural network with L2 regularization"""
 
 import tensorflow as tf
 
 
-def l2_reg_create_layer(prev, n, activation, lambtha):
-    """Creates a layer with L2 regularization """
+def l2_reg_cost(cost, model):
+    """Calculate cost of neural network with L2 regularzation"""
+    layer_costs = []
 
-    layer = tf.keras.layers.Dense(
-        units=n,
-        activation=activation,
-        kernel_initializer=tf.keras.initializers.HeNormal(),
-        kernel_regularizer=tf.keras.regularizers.l2(lambtha)
-    )
+    for layer in model.layers:
+        if layer.losses:
+            reg = tf.add_n(layer.losses)
+            layer_costs.append(cost + reg)
 
-    return layer(prev)
+    return tf.stack(layer_costs)

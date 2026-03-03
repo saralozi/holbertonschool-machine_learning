@@ -43,7 +43,8 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
                     axis=0
                 )
 
-                dA_pad[:, y:y + kh, x:x + kw, :] += W[:, :, :, k] * dZ[:, i:i + 1, j:j + 1, k:k + 1]
+                grad = W[:, :, :, k] * dZ[:, i:i + 1, j:j + 1, k:k + 1]
+                dA_pad[:, y:y + kh, x:x + kw, :] += grad
 
     if ph == 0 and pw == 0:
         dA_prev = dA_pad

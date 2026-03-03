@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Builds a modified LeNet-5 architecture using Keras"""
 
+
 from tensorflow import keras as K
+
 
 def lenet5(X):
     """Builds and compiles the modified LeNet-5 model."""

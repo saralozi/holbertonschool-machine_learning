@@ -4,57 +4,39 @@
 import numpy as np
 
 
-def convolve(images, kernels, padding='same', stride=(1, 1)):
+def convolve(images, kernel, padding='same', stride=(1, 1)):
     """Performs a convolution on images using multiple kernels"""
 
     m, h, w, c = images.shape
-    kh, kw, kc, nc = kernels.shape
+    kh, kw, _, nc = kernel.shape
     sh, sw = stride
-
-    if kc != c:
-        raise ValueError("kernels channels must match images channels")
 
     if padding == 'valid':
         ph, pw = 0, 0
-        ph_extra, pw_extra = 0, 0
-
     elif padding == 'same':
-        out_h = int(np.ceil(h / sh))
-        out_w = int(np.ceil(w / sw))
+        ph = int((((h - 1) * sh + kh - h) / 2) + 1)
+        pw = int((((w - 1) * sw + kw - w) / 2) + 1)
 
-        ph_total = max((out_h - 1) * sh + kh - h, 0)
-        pw_total = max((out_w - 1) * sw + kw - w, 0)
-
-        ph = ph_total // 2
-        pw = pw_total // 2
-        ph_extra = ph_total - 2 * ph
-        pw_extra = pw_total - 2 * pw
-
-    else:
+    elif isinstance(padding, tuple):
         ph, pw = padding
-        ph_extra, pw_extra = 0, 0
 
-    padded = np.pad(
-        images,
-        pad_width=((0, 0), (ph, ph + ph_extra), (pw, pw + pw_extra), (0, 0)),
-        mode='constant',
-        constant_values=0
-    )
+    output_height = int((h - kh + 2 * ph) / sh + 1)
+    output_width = int((w - kw + 2 * pw) / sw + 1)
 
-    h_pad, w_pad = padded.shape[1], padded.shape[2]
-    out_h = ((h_pad - kh) // sh) + 1
-    out_w = ((w_pad - kw) // sw) + 1
+    convolved_images = np.zeros((m, output_height, output_width, nc))
 
-    output = np.zeros((m, out_h, out_w, nc))
+    image_pad = np.pad(images,
+                       ((0, 0), (ph, ph),
+                        (pw, pw), (0, 0)), mode='constant')
 
-    for i in range(out_h):
-        for j in range(out_w):
-            y = i * sh
-            x = j * sw
-            patch = padded[:, y:y + kh, x:x + kw, :]
+    for k in range(nc):
+        for i in range(output_height):
+            for j in range(output_width):
+                image_zone = image_pad[:, i * sh:i * sh + kh,
+                                       j * sw:j * sw + kw, :]
 
-            for k in range(nc):
-                kern = kernels[:, :, :, k]
-                output[:, i, j, k] = np.sum(patch * kern, axis=(1, 2, 3))
+                convolved_images[:, i, j, k] = np.sum(image_zone
+                                                      * kernel[:, :, :, k],
+                                                      axis=(1, 2, 3))
 
-    return output
+    return convolved_images

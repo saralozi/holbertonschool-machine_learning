@@ -1,24 +1,54 @@
 #!/usr/bin/env python3
-"""Performs forward propagation for a simple RNN"""
+"""LSTM Cell"""
 
 import numpy as np
 
 
-def rnn(rnn_cell, X, h_0):
-    """Forward propagation for simple RNN"""
+class LSTMCell:
+    """Represents an LSTM unit"""
 
-    t, m, i = X.shape
-    h = h_0.shape[1]
-    o = rnn_cell.by.shape[1]
+    def __init__(self, i, h, o):
+        """Class constructor"""
 
-    H = np.zeros((t + 1, m, h))
-    Y = np.zeros((t, m, o))
+        self.Wf = np.random.randn(i + h, h)
+        self.bf = np.zeros((1, h))
 
-    H[0] = h_0
+        self.Wu = np.random.randn(i + h, h)
+        self.bu = np.zeros((1, h))
 
-    for step in range(t):
-        h_next, y = rnn_cell.forward(H[step], X[step])
-        H[step + 1] = h_next
-        Y[step] = y
+        self.Wc = np.random.randn(i + h, h)
+        self.bc = np.zeros((1, h))
 
-    return H, Y
+        self.Wo = np.random.randn(i + h, h)
+        self.bo = np.zeros((1, h))
+
+        self.Wy = np.random.randn(h, o)
+        self.by = np.zeros((1, o))
+
+    def softmax(self, Y):
+        """Calculates softmax"""
+
+        exp = np.exp(Y - np.max(Y, axis=1, keepdims=True))
+        return exp / np.sum(exp, axis=1, keepdims=True)
+
+    def sigmoid(self, x):
+        """Calculates sigmoid"""
+
+        return 1 / (1 + np.exp(-x))
+
+    def forward(self, h_prev, c_prev, x_t):
+        """Forward propagation for one time step"""
+
+        concat = np.concatenate((h_prev, x_t), axis=1)
+
+        f = self.sigmoid(np.matmul(concat, self.Wf) + self.bf)
+        u = self.sigmoid(np.matmul(concat, self.Wu) + self.bu)
+        c_bar = np.tanh(np.matmul(concat, self.Wc) + self.bc)
+        c_next = f * c_prev + u * c_bar
+
+        o = self.sigmoid(np.matmul(concat, self.Wo) + self.bo)
+        h_next = o * np.tanh(c_next)
+
+        y = self.softmax(np.matmul(h_next, self.Wy) + self.by)
+
+        return h_next, c_next, y

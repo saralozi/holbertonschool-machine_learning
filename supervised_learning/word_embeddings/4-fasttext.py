@@ -11,10 +11,10 @@ def fasttext_model(sentences, vector_size=100, min_count=5, negative=5,
     model = gensim.models.FastText(
         sentences,
         vector_size=vector_size,
-        window=window,
         min_count=min_count,
         negative=negative,
-        sg=not cbow,
+        window=window,
+        sg=1 - cbow,
         epochs=epochs,
         seed=seed,
         workers=workers
